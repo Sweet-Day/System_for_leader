@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ddc33de9-07b6-4262-8173-d55c3b5f4b66": {
+      "ProjectGuid": "ddc33de9-07b6-4262-8173-d55c3b5f4b66",
+      "DisplayName": "GroupManager",
+      "ColorIndex": 0
+    },
+    "fae905d4-e410-4bd3-91cd-b3b6cb96d3bc": {
+      "ProjectGuid": "fae905d4-e410-4bd3-91cd-b3b6cb96d3bc",
+      "DisplayName": "GroupManager.BusinessLogic",
+      "ColorIndex": 1
+    },
+    "c49db5d2-7e32-4c74-95e0-9bd555aa3cf8": {
+      "ProjectGuid": "c49db5d2-7e32-4c74-95e0-9bd555aa3cf8",
+      "DisplayName": "GroupManager.Core",
+      "ColorIndex": 2
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Прочие файлы",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 3
+}
