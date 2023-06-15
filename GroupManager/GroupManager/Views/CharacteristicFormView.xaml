@@ -138,7 +138,7 @@
 
         <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Vertical">
             <TextBlock 
-                Width="600"
+                Width="400"
                 Style="{StaticResource BoldLabel}" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 TextAlignment="Center"
