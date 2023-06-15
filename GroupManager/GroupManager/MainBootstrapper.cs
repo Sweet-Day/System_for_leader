@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace GroupManager
 {
@@ -31,6 +32,11 @@ namespace GroupManager
             container.PerRequest<CharacteristicFormViewModel, CharacteristicFormViewModel>();
             container.PerRequest<RadioCharacteristicFormViewModel,RadioCharacteristicFormViewModel>();
             container.PerRequest<DeleteRequestViewModel,DeleteRequestViewModel>();
+            container.PerRequest<ListCertificatesViewModel,ListCertificatesViewModel>();
+            container.PerRequest<DeleteRequestCertificateViewModel, DeleteRequestCertificateViewModel>();
+            container.PerRequest<AboutCertificateViewModel,AboutCertificateViewModel>();
+            container.PerRequest<ChooseCharacteristicViewModel,ChooseCharacteristicViewModel>();
+            container.PerRequest<AboutViewModel,AboutViewModel>();
 
             container.PerRequest<IRepository<Student>, StudentRepository>();
             container.PerRequest<IStudentsRepository, StudentRepository>();
@@ -55,7 +61,11 @@ namespace GroupManager
         }
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
-            await DisplayRootViewForAsync<ShellViewModel>();
+            var settings = new Dictionary<string, object>{
+                 { "Icon", new BitmapImage(new Uri("pack://application:,,,/GroupManager;component/unitup.ico"))},
+                 
+            };
+            await DisplayRootViewForAsync<ShellViewModel>(settings);
         }
 
         protected override object GetInstance(Type service, string key)

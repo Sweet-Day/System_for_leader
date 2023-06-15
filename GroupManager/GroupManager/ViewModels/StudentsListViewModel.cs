@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GroupManager.ViewModels
 {
@@ -30,6 +31,73 @@ namespace GroupManager.ViewModels
             }
         
         }
+
+        int selectedIndex;
+        public int SelectedIndex
+        {
+            get => selectedIndex;
+            set
+            {
+                selectedIndex=value;
+                if (selectedIndex == 3)
+                {
+                    PlaceLiveVisibility = Visibility.Visible;
+                }
+                else PlaceLiveVisibility= Visibility.Hidden;
+
+                if (selectedIndex == 2)
+                {
+                    EndPassportDateVisible = Visibility.Visible;
+                }
+                else EndPassportDateVisible=Visibility.Hidden;
+                NotifyOfPropertyChange(nameof(SelectedIndex));
+            }
+        }
+        int selectedFilterIndex;
+        public int SelectedFilterIndex
+        {
+            get => selectedFilterIndex;
+            set
+            {
+                selectedFilterIndex=value;
+                if (selectedFilterIndex == 0)
+                {
+                    Students = new BindableCollection<Student>(
+                            (_studentsRepository.GetAll())
+                               .Where(x => x.PlaceLiveType.ToLower().Contains("Місто")));
+                }
+                else if (selectedFilterIndex == 1)
+                {
+                    Students = new BindableCollection<Student>(
+                            (_studentsRepository.GetAll())
+                               .Where(x => x.PlaceLiveType.ToLower().Contains("Село")));
+                }
+                NotifyOfPropertyChange(nameof(SelectedFilterIndex));
+            }
+        }
+        Visibility endPassportDateVisible;
+        public Visibility EndPassportDateVisible
+        {
+            get => endPassportDateVisible;
+            set
+            {
+                endPassportDateVisible=value;
+                NotifyOfPropertyChange(nameof(EndPassportDateVisible));
+            }
+        }
+        Visibility placeLiveVisibility;
+        public Visibility PlaceLiveVisibility
+        {
+            get=> placeLiveVisibility;
+            set
+            {
+                placeLiveVisibility=value;
+                NotifyOfPropertyChange(nameof(PlaceLiveVisibility));
+            }
+        }
+
+
+
         public Student SelectedStudent { get; set; }
         public StudentsListViewModel(
             IRepository<Student> _studentsRepository,
@@ -39,6 +107,8 @@ namespace GroupManager.ViewModels
             this._studentsRepository = _studentsRepository;
             _certificateRepository = certificateRepository;
             this._parentsRepository = parentsRepository;
+            SelectedIndex= 0;
+            SelectedFilterIndex= -1;
         }
         private void UploadStudents()
         {
@@ -61,21 +131,40 @@ namespace GroupManager.ViewModels
         //    return //!string.IsNullOrEmpty(lastname);
         //}
 
-        public async void SearchByLastName(string lastname)
+        public async void SearchByLastName(string str)
         {
-            if (lastname == String.Empty)
+            if (str == String.Empty)
             {
                 Students = new BindableCollection<Student>(
                         (await _studentsRepository.GetAllAsync()));
-                       
+                return;
             }
-            else
+            switch (SelectedIndex)
             {
-                Students = new BindableCollection<Student>(
-                        (await _studentsRepository.GetAllAsync())
-                        .Where(x => x.Lastname.ToLower().Contains(lastname.ToLower()))
-                    );
+                case 0:
+                    {
+                        Students = new BindableCollection<Student>(
+                             (await _studentsRepository.GetAllAsync())
+                                .Where(x => x.Lastname.ToLower().Contains(str.ToLower())));
+                    }
+                    break;
+                case 1:
+                    {
+                        Students = new BindableCollection<Student>(
+                            (await _studentsRepository.GetAllAsync())
+                               .Where(x => x.DateOfBirth.Contains(str.ToLower())));
+                    }
+                    break;
+                case 2:
+                    {
+
+                        Students = new BindableCollection<Student>(
+                            (await _studentsRepository.GetAllAsync())
+                               .Where(x => x.PassportEndDate.ToLower().Contains(str.ToLower())));
+                    }
+                    break;
             }
+          
         }
         public void AddNewStudent()
         {
@@ -122,6 +211,11 @@ namespace GroupManager.ViewModels
         {
             var mainViewModel=IoC.Get<MainViewModel>();
             Switcher.SwitchAsync(mainViewModel, new System.Threading.CancellationToken());
+        }
+        public void DisableFilters()
+        {
+            SelectedFilterIndex= -1;
+            UploadStudents();
         }
     }
 }

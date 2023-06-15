@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GroupManager.ViewModels
 {
@@ -24,8 +25,67 @@ namespace GroupManager.ViewModels
             }
         }
         public Group CurrentGroup { get; set; }
-        public Student CurrentStudent { get; set; }
+        Student currentStudent;
+        public Student CurrentStudent
+        {
+            get
+            {
+                return currentStudent;
+            }
 
+            set
+            {
+                currentStudent= value;
+                CharacteristicModel.Student= value;
+                CharacteristicModel.Name=currentStudent.Name;
+                CharacteristicModel.Lastname=currentStudent.Lastname;
+                CharacteristicModel.Patronymic=currentStudent.Patronymic;
+                CharacteristicModel.StartStudyDate = currentStudent.StartStudyYear;
+                NotifyOfPropertyChange(() => CurrentStudent);
+            }
+        }
+        CharacteristicMode mode;
+        public CharacteristicMode ModeCh 
+        {
+            get => mode;
+            set
+            {
+                mode= value;
+                if (mode == CharacteristicMode.ForMilitary)
+                {
+                    MilitaryVisibility= Visibility.Visible;
+                    PromVisibility= Visibility.Collapsed;
+                }
+                else
+                {
+                    MilitaryVisibility = Visibility.Collapsed;
+                    PromVisibility = Visibility.Visible;
+                }
+                NotifyOfPropertyChange(() => ModeCh);
+            }
+        }
+
+        Visibility militaryVisibility;
+        public Visibility MilitaryVisibility
+        {
+            get => militaryVisibility;
+            set
+            {
+                militaryVisibility = value;
+                NotifyOfPropertyChange(nameof(MilitaryVisibility));
+            }
+        }
+
+        Visibility promVisibility;
+        public Visibility PromVisibility
+        {
+            get => promVisibility;
+            set
+            {
+                promVisibility = value;
+                NotifyOfPropertyChange(nameof(PromVisibility));
+            }
+        }
 
         IRepository<Student> _studRepos;
         IRepository<Parents> _parentsRepos;
@@ -38,6 +98,7 @@ namespace GroupManager.ViewModels
             this._studRepos = _studRepository;
             this._parentsRepos = _parRepository;
             CharacteristicModel=new CharacteristicModel();
+
         }
         public void Back()
         {
@@ -55,9 +116,11 @@ namespace GroupManager.ViewModels
         public void MoveToNext()
         {
             var radio = IoC.Get<RadioCharacteristicFormViewModel>();
+            CharacteristicModel.Student = CurrentStudent;
             radio.CharacteristicModel = CharacteristicModel;
             radio.CurrentStudent = CurrentStudent;
             radio.CurrentGroup = CurrentGroup;
+            radio.ModeCh = ModeCh;
             Switcher.SwitchAsync(radio, new System.Threading.CancellationToken());
         }
     }
