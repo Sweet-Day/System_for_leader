@@ -19,5 +19,5 @@
     <img  src="https://raw.githubusercontent.com/irontec/android-mvvm-example/master/logo.png" width="80" height="80">
     <img  src="https://brandslogos.com/wp-content/uploads/thumbs/microsoft-sql-server-logo-vector.svg" width="90" height="80">
     <img  src="https://codeopinion.com/wp-content/uploads/2017/10/Bitmap-MEDIUM_Entity-Framework-Core-Logo_2colors_Square_Boxed_RGB.png" width="80" height="80">
-    <img  src="https://1000logos.net/wp-content/uploads/2023/04/Visual-Studio-Logo-2019.png" width="110" height="80">
+    <img  src="https://1000logos.net/wp-content/uploads/2023/04/Visual-Studio-Logo-2019.png" width="120" height="80">
   </div>
